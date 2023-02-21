@@ -1,0 +1,1034 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/font.min.css" />
+
+    <script src="scripts/jquery-3.6.3.min.js"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script> -->
+    <script
+      type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAr-34_qeXLtHL-FPPE0gHhu1rQzelRysk&libraries=places"
+    ></script>
+    <script>
+      function initialize() {
+        var input = document.getElementById("searchTextField");
+        var autocomplete = new google.maps.places.Autocomplete(input);
+        google.maps.event.addListener(
+          autocomplete,
+          "place_changed",
+          function () {
+            var place = autocomplete.getPlace();
+            console.log(place);
+            document.getElementById("city2").textContent =
+              place.formatted_address;
+            document.getElementById("cityLat").textContent =
+              place.geometry.location.lat();
+            document.getElementById("cityLng").textContent =
+              place.geometry.location.lng();
+            $("#place_id").val(place.place_id);
+            $("#placeName").val(place.name);
+          }
+        );
+      }
+      google.maps.event.addDomListener(window, "load", initialize);
+    </script>
+  </head>
+  <body>
+    <div class="root">
+      <div class="place-details-form-root">
+        <div class="place-details-form">
+          <div>
+            <div class="auto-complete">
+              <div>
+                <label>Place name</label>
+                <input
+                  id="searchTextField"
+                  type="text"
+                  size="50"
+                  placeholder="Enter a location"
+                  autocomplete="on"
+                  runat="server"
+                />
+              </div>
+            </div>
+            <div>
+              <label> Description </label>
+              <input type="text" id="description" placeholder="Description" />
+            </div>
+            <div>
+              <label> Place type </label>
+              <select class="select" id="place-type" name="Placetype">
+                <option value="0">Select</option>
+                <option value="Nature">Nature</option>
+                <option value="Sightseeing">Sightseeing</option>
+                <option value="Landscape">Landscape</option>
+                <option value="Wildlife">Wildlife</option>
+                <option value="Religious">Religious</option>
+                <option value="Beach">Beach</option>
+                <option value="Resort">Resort</option>
+                <option value="Treehouse">Treehouse</option>
+                <option value="Camp">Camp</option>
+                <option value="CampFire">CampFire</option>
+                <option value="HillStation">Hill Station</option>
+                <option value="Historical">Historical</option>
+                <option value="Architectural">Architectural</option>
+                <option value="Monument">Monument</option>
+                <option value="Landmark">Landmark</option>
+                <option value="Fort">Fort</option>
+                <option value="Palace">Palace</option>
+                <option value="Museum">Museum</option>
+                <option value="Exhibition">Exhibition</option>
+                <option value="Zoo">Zoo</option>
+                <option value="Park">Park</option>
+                <option value="NationalPark">NationalPark</option>
+                <option value="Biosphere">Biosphere Reserve</option>
+                <option value="Wildlifesanctuary">Wildlife sanctuary</option>
+                <option value="Market">Market</option>
+                <option value="Shopping">Shopping Area</option>
+                <option value="Mall">Mall</option>
+                <option value="Shop">Shop</option>
+                <option value="Homestay">Homestay</option>
+                <option value="Hotel">Hotel</option>
+                <option value="Restaurant">Restaurant</option>
+                <option value="Caves">Caves</option>
+                <option value="River">River</option>
+                <option value="Bridge">Bridge</option>
+              </select>
+            </div>
+            <div>
+              <label> Purpose of visit </label>
+              <select class="select" id="visit-purpose" name="purpose">
+                <option value="0">Select</option>
+                <option value="Photography">Photography</option>
+                <option value="Relaxation">Relaxation</option>
+                <option value="Leisure">Leisure</option>
+                <option value="Peace">Peace</option>
+                <option value="Religious">Religious</option>
+                <option value="Healing">Healing</option>
+                <option value="Medical">Medical</option>
+                <option value="Adventure">Adventure</option>
+                <option value="Trekking">Trekking</option>
+                <option value="RockClimbing">Rock Climbing</option>
+                <option value="Angling">Angling</option>
+                <option value="Hiking">Hiking</option>
+                <option value="Snorkeling">Snorkeling</option>
+                <option value="Skydiving">Skydiving</option>
+                <option value="Villageexperience">Village experience</option>
+                <option value="Tribalexperience">Tribal experience</option>
+                <option value="Festival">Festival</option>
+                <option value="Fair">Fair</option>
+                <option value="Market">Market</option>
+                <option value="Entertainment">Entertainment</option>
+                <option value="Watersports">Water sports</option>
+                <option value="ScubaDiving">Scuba Diving</option>
+                <option value="Walking">Walking</option>
+              </select>
+            </div>
+            <div>
+              <label> Er level </label>
+              <select class="select" id="er-level" name="ERlevel">
+                <option value="0">Select</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+            </div>
+            <div>
+              <label> Entry Price </label>
+              <input
+                type="text"
+                id="entryPrice"
+                placeholder="price"
+                onkeypress="return isNumber(event)"
+              />
+            </div>
+            <div>
+              <label> Optimal spent time (in hrs) </label>
+              <input
+                type="text"
+                id="optimalHours"
+                placeholder="hours "
+                onkeypress="return isNumber(event)"
+              />
+            </div>
+          </div>
+          <div>
+            <div>
+              <label> Constraints </label>
+              <select class="select" id="constraints" name="constraints">
+                <option value="0">Select</option>
+                <option value="1">Not recommended for elderly</option>
+                <option value="2">Not recommended for children</option>
+              </select>
+            </div>
+            <div class="days-div">
+              <button
+                type="button"
+                class="collapsible"
+                onclick="oncollapseClick('best-time')"
+              >
+                Best time to visit
+              </button>
+              <div class="best-time-collapsible-content">
+                <div class="month-root-div">
+                  <div>
+                    <div>
+                      <input
+                        type="checkbox"
+                        id="select-all-month"
+                        name="month-div"
+                        for="best-time"
+                        value="1"
+                      />
+                    </div>
+                    <label>Select all Months </label>
+                  </div>
+                  <div class="month-div">
+                    <div>
+                      <input
+                        type="checkbox"
+                        id="month1"
+                        name="month1"
+                        value="1"
+                      />
+                      <label for="month1"> January</label>
+                    </div>
+                    <div>
+                      <input
+                        type="checkbox"
+                        id="month2"
+                        name="month2"
+                        value="2"
+                      />
+                      <label for="month2"> February</label>
+                    </div>
+                    <div>
+                      <input
+                        type="checkbox"
+                        id="month3"
+                        name="month3"
+                        value="3"
+                      />
+                      <label for="month3"> March</label>
+                    </div>
+                    <div>
+                      <input
+                        type="checkbox"
+                        id="month4"
+                        name="month4"
+                        value="4"
+                      />
+                      <label for="month4"> April</label>
+                    </div>
+                    <br />
+                  </div>
+                  <div class="month-div">
+                    <div>
+                      <input
+                        type="checkbox"
+                        id="month5"
+                        name="month5"
+                        value="5"
+                      />
+                      <label for="month5"> May</label>
+                    </div>
+                    <div>
+                      <input
+                        type="checkbox"
+                        id="month6"
+                        name="month6"
+                        value="6"
+                      />
+                      <label for="month6"> June</label>
+                    </div>
+                    <div>
+                      <input
+                        type="checkbox"
+                        id="month7"
+                        name="month7"
+                        value="7"
+                      />
+                      <label for="month7"> July</label>
+                    </div>
+                    <div>
+                      <input
+                        type="checkbox"
+                        id="month8"
+                        name="month8"
+                        value="8"
+                      />
+                      <label for="month8"> Aug</label>
+                    </div>
+                    <br />
+                  </div>
+                  <div class="month-div">
+                    <div>
+                      <input
+                        type="checkbox"
+                        id="month19"
+                        name="month9"
+                        value="9"
+                      />
+                      <label for="month9"> September</label>
+                    </div>
+                    <div>
+                      <input
+                        type="checkbox"
+                        id="month10"
+                        name="month10"
+                        value="10"
+                      />
+                      <label for="month10"> October</label>
+                    </div>
+                    <div>
+                      <input
+                        type="checkbox"
+                        id="month11"
+                        name="month11"
+                        value="11"
+                      />
+                      <label for="month11"> November</label>
+                    </div>
+                    <div>
+                      <input
+                        type="checkbox"
+                        id="month12"
+                        name="month12"
+                        value="12"
+                      />
+                      <label for="month12"> December</label>
+                    </div>
+                    <br />
+                  </div>
+                </div>
+                <div class="day-root-div">
+                  <div>
+                    <div>
+                      <input
+                        type="checkbox"
+                        id="select-all-days"
+                        name="day-div"
+                        for="best-time"
+                        value="1"
+                      />
+                    </div>
+                    <label for="select-all-days">Select all days </label>
+                  </div>
+                  <div class="day-div">
+                    <div>
+                      <input type="checkbox" id="day1" name="day1" value="1" />
+                      <label for="day1"> Sunday</label>
+                    </div>
+                    <div>
+                      <input type="checkbox" id="day2" name="day2" value="2" />
+                      <label for="day2"> Monday</label>
+                    </div>
+                    <div>
+                      <input type="checkbox" id="day3" name="day3" value="3" />
+                      <label for="day3"> Tuesday</label>
+                    </div>
+                    <div>
+                      <input type="checkbox" id="day4" name="day4" value="4" />
+                      <label for="day4"> Wednesday</label>
+                    </div>
+                  </div>
+                  <div class="day-div">
+                    <div>
+                      <input type="checkbox" id="day5" name="day5" value="5" />
+                      <label for="day5"> Thursday</label>
+                    </div>
+                    <div>
+                      <input type="checkbox" id="day6" name="day6" value="6" />
+                      <label for="day6"> Friday</label>
+                    </div>
+                    <div>
+                      <input type="checkbox" id="day7" name="day7" value="7" />
+                      <label for="day7"> Saturday</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="time-root-div" id="best-time-root-div">
+                  <div class="time-div">
+                    <label>Time</label>
+                    <select id="bestTimefromtime" name="fromtime">
+                      <option value="0">Select</option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                      <option value="7">7</option>
+                      <option value="8">8</option>
+                      <option value="9" selected="selected">9</option>
+                      <option value="10">10</option>
+                      <option value="11">11</option>
+                      <option value="12">12</option>
+                    </select>
+                    <select id="bestTimeFromam" name="am">
+                      <option value="0">Select</option>
+                      <option value="1" selected="selected">Am</option>
+                      <option value="2">Pm</option>
+                    </select>
+                    - to -
+                    <select id="bestTimetotime" name="totime">
+                      <option value="0">Select</option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6" selected="selected">6</option>
+                      <option value="7">7</option>
+                      <option value="8">8</option>
+                      <option value="9">9</option>
+                      <option value="10">10</option>
+                      <option value="11">11</option>
+                      <option value="12">12</option>
+                    </select>
+                    <select id="bestTimeToam" name="am">
+                      <option value="0">Select</option>
+                      <option value="1">Am</option>
+                      <option value="2" selected="selected">Pm</option>
+                    </select>
+                    <input
+                      type="button"
+                      value="Add"
+                      onclick="addTimeControl('best-time-root-div','bestTime')"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="days-div">
+              <button
+                type="button"
+                class="collapsible"
+                onclick="oncollapseClick('open-on')"
+              >
+                Opens on
+              </button>
+              <div class="open-on-collapsible-content">
+                <div class="month-root-div">
+                  <div>
+                    <div>
+                      <input
+                        type="checkbox"
+                        id="select-all-month"
+                        name="month-div"
+                        for="open-on"
+                        value="1"
+                      />
+                    </div>
+                    <label>Select all Months </label>
+                  </div>
+
+                  <div class="month-div">
+                    <div>
+                      <input
+                        type="checkbox"
+                        id="month1"
+                        name="month1"
+                        value="1"
+                      />
+                      <label for="month1"> January</label>
+                    </div>
+                    <div>
+                      <input
+                        type="checkbox"
+                        id="month2"
+                        name="month2"
+                        value="2"
+                      />
+                      <label for="month2"> February</label>
+                    </div>
+                    <div>
+                      <input
+                        type="checkbox"
+                        id="month3"
+                        name="month3"
+                        value="3"
+                      />
+                      <label for="month3"> March</label>
+                    </div>
+                    <div>
+                      <input
+                        type="checkbox"
+                        id="month4"
+                        name="month4"
+                        value="4"
+                      />
+                      <label for="month4"> April</label>
+                    </div>
+                    <br />
+                  </div>
+                  <div class="month-div">
+                    <div>
+                      <input
+                        type="checkbox"
+                        id="month5"
+                        name="month5"
+                        value="5"
+                      />
+                      <label for="month5"> May</label>
+                    </div>
+                    <div>
+                      <input
+                        type="checkbox"
+                        id="month6"
+                        name="month6"
+                        value="6"
+                      />
+                      <label for="month6"> June</label>
+                    </div>
+                    <div>
+                      <input
+                        type="checkbox"
+                        id="month7"
+                        name="month7"
+                        value="7"
+                      />
+                      <label for="month7"> July</label>
+                    </div>
+                    <div>
+                      <input
+                        type="checkbox"
+                        id="month8"
+                        name="month8"
+                        value="8"
+                      />
+                      <label for="month8"> Aug</label>
+                    </div>
+                    <br />
+                  </div>
+                  <div class="month-div">
+                    <div>
+                      <input
+                        type="checkbox"
+                        id="month19"
+                        name="month9"
+                        value="9"
+                      />
+                      <label for="month9"> September</label>
+                    </div>
+                    <div>
+                      <input
+                        type="checkbox"
+                        id="month10"
+                        name="month10"
+                        value="10"
+                      />
+                      <label for="month10"> October</label>
+                    </div>
+                    <div>
+                      <input
+                        type="checkbox"
+                        id="month11"
+                        name="month11"
+                        value="11"
+                      />
+                      <label for="month11"> November</label>
+                    </div>
+                    <div>
+                      <input
+                        type="checkbox"
+                        id="month12"
+                        name="month12"
+                        value="12"
+                      />
+                      <label for="month12"> December</label>
+                    </div>
+                    <br />
+                  </div>
+                </div>
+                <div class="day-root-div">
+                  <div>
+                    <div>
+                      <input
+                        type="checkbox"
+                        id="select-all-days"
+                        name="day-div"
+                        for="open-on"
+                        value="1"
+                      />
+                    </div>
+                    <label for="select-all-days">Select all days </label>
+                  </div>
+                  <div class="day-div">
+                    <div>
+                      <input type="checkbox" id="day1" name="day1" value="1" />
+                      <label for="day1"> Sunday</label>
+                    </div>
+                    <div>
+                      <input type="checkbox" id="day2" name="day2" value="2" />
+                      <label for="day2"> Monday</label>
+                    </div>
+                    <div>
+                      <input type="checkbox" id="day3" name="day3" value="3" />
+                      <label for="day3"> Tuesday</label>
+                    </div>
+                    <div>
+                      <input type="checkbox" id="day4" name="day4" value="4" />
+                      <label for="day4"> Wednesday</label>
+                    </div>
+                  </div>
+                  <div class="day-div">
+                    <div>
+                      <input type="checkbox" id="day5" name="day5" value="5" />
+                      <label for="day5"> Thursday</label>
+                    </div>
+                    <div>
+                      <input type="checkbox" id="day6" name="day6" value="6" />
+                      <label for="day6"> Friday</label>
+                    </div>
+                    <div>
+                      <input type="checkbox" id="day7" name="day7" value="7" />
+                      <label for="day7"> Saturday</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="time-root-div" id="open-on-time-root-div">
+                  <div class="time-div">
+                    <label>Time</label>
+                    <select id="opensOnfromtime" name="fromtime">
+                      <option value="0">Select</option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                      <option value="7">7</option>
+                      <option value="8">8</option>
+                      <option value="9" selected="selected">9</option>
+                      <option value="10">10</option>
+                      <option value="11">11</option>
+                      <option value="12">12</option>
+                    </select>
+                    <select id="opensOnFromam" name="am">
+                      <option value="0">Select</option>
+                      <option value="1" selected="selected">Am</option>
+                      <option value="2">Pm</option>
+                    </select>
+                    - to -
+                    <select id="opensOntotime" name="totime">
+                      <option value="0">Select</option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6" selected="selected">6</option>
+                      <option value="7">7</option>
+                      <option value="8">8</option>
+                      <option value="9">9</option>
+                      <option value="10">10</option>
+                      <option value="11">11</option>
+                      <option value="12">12</option>
+                    </select>
+                    <select id="opensOnToam" name="am">
+                      <option value="0">Select</option>
+                      <option value="1">Am</option>
+                      <option value="2" selected="selected">Pm</option>
+                    </select>
+                    <input
+                      type="button"
+                      value="Add"
+                      onclick="addTimeControl('open-on-time-root-div','opensOn')"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <button onclick="myFunction()">Add place</button>
+          <button onclick="clearFun()">clear</button>
+        </div>
+        <div>
+          <p id="city2" name="city2"></p>
+          <p id="cityLat" name="cityLat"></p>
+          <p id="cityLng" name="cityLng"></p>
+          <input type="hidden" id="place_id" name="place_id" />
+          <input type="hidden" id="placeName" name="placeName" />
+        </div>
+      </div>
+
+      <div>
+        <div class="table-search">
+          <input
+            type="text"
+            id="searchField"
+            onkeyup="onsearchpress()"
+            placeholder="search"
+          />
+          <button onclick="onbtnClick()">Get All</button>
+        </div>
+        <table id="customers">
+          <tr>
+            <th></th>
+            <th>Place Name</th>
+            <th>Lat</th>
+            <th>long</th>
+            <th></th>
+          </tr>
+          <tbody id="customersBody"></tbody>
+        </table>
+      </div>
+    </div>
+    <script>
+      var placesArray = [];
+      $(document).ready(function () {
+        $("#select-all-month,#select-all-days").change(function () {
+          var type = $(this).attr("for");
+          var type1 = $(this).attr("name");
+          $(
+            "." + type + "-collapsible-content ." + type1 + " [type=checkbox]"
+          ).prop("checked", this.checked);
+        });
+        onbtnClick();
+      });
+      function addTimeControl(className, idName) {
+        var id = $("#" + className + " .time-div").length;
+
+        if (id <= 2) {
+          id = $($("#" + className + " .time-div")[id - 1]).attr("for");
+          id = id ? parseInt(id) + 1 : 1;
+          var htmlstr = `<div class="time-div" for="${id}">
+                    <select id="${idName}fromtime${id}" name="fromtime">
+                      <option value="0">Select</option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                      <option value="7">7</option>
+                      <option value="8">8</option>
+                      <option value="9" selected="selected">9</option>
+                      <option value="10">10</option>
+                      <option value="11">11</option>
+                      <option value="12">12</option>
+                    </select>
+                    <select id="${idName}Fromam${id}" name="am">
+                      <option value="0">Select</option>
+                      <option value="1" selected="selected">Am</option>
+                      <option value="2">Pm</option>
+                    </select>
+                    - to -
+                    <select id="${idName}totime${id}" name="totime">
+                      <option value="0">Select</option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6" selected="selected">6</option>
+                      <option value="7">7</option>
+                      <option value="8">8</option>
+                      <option value="9">9</option>
+                      <option value="10">10</option>
+                      <option value="11">11</option>
+                      <option value="12">12</option>
+                    </select>
+                    <select id="${idName}Toam${id}" name="am">
+                      <option value="0">Select</option>
+                      <option value="1">Am</option>
+                      <option value="2" selected="selected">Pm</option>
+                    </select>
+                    <input type="button" value="Del" for="${id}"
+                    onclick="onDeleteTimeDiv('${className}','${id}')"/>
+                  </div>`;
+          $("#" + className).append(htmlstr);
+        }
+      }
+      function onbtnClick() {
+        $.ajax({
+          url: "/places",
+          type: "GET",
+          dataType: "json", // added data type
+          success: function (res) {
+            if (res.success) {
+              $("#customersBody").html("");
+              console.log("data", res.data);
+              placesArray = res.data;
+              jQuery.each(res.data, function (index, item) {
+                var str = `<tr><td><input type="button" value="edit" onclick="onEditPlaces('${item.place_id}')"/></td>
+              <td>${item.name}, ${item.full_name}</td>
+              <td>${item.lat}</td>
+              <td>${item.lng}</td>
+              <td><a target="_blank" href="https://maps.google.com/?q=${item.lat},${item.lng}">Open in maps</a></td>
+            </tr>`;
+
+                $("#customersBody").append(str);
+              });
+            }
+          },
+        });
+      }
+      function onDeleteTimeDiv(className, id) {
+        debugger;
+        $("#" + className + " .time-div[for=" + id + "]").remove();
+      }
+      function onEditPlaces(placeId) {
+        var placeObj = placesArray.find((x) => x.place_id == placeId);
+        clearFields();
+        console.log(placeObj);
+        bindData(placeObj);
+      }
+      function onsearchpress(e) {
+        var value = $("#searchField").val();
+        if (value.length > 2) {
+          $.ajax({
+            url: "/places?searchText=" + value,
+            type: "GET",
+            dataType: "json", // added data type
+            success: function (res) {
+              if (res.success) {
+                placesArray = res.data;
+                $("#customersBody").html("");
+                jQuery.each(res.data, function (index, item) {
+                  var str = `<tr><td><input type="button" value="edit"/></td>
+              <td>${item.name}, ${item.full_name}</td>
+              <td>${item.lat}</td>
+              <td>${item.lng}</td>
+              <td><a href="https://maps.google.com/?q=${item.lat},${item.lng}">Open in maps</a></td>
+            </tr>`;
+
+                  $("#customersBody").append(str);
+                });
+              }
+            },
+          });
+        }
+      }
+      function clearFun() {
+        location.reload();
+      }
+      function clearFields() {
+        $("#searchTextField").val("");
+        $("#description").val("");
+        $("#place-type").val("0");
+        $("#visit-purpose").val("0");
+        $("#er-level").val("0");
+        $("#entryPrice").val("");
+        $("#optimalHours").val("");
+        $("#constraints").val("0");
+        $(".days-div [type=checkbox]").prop("checked", false);
+        $("#open-on-time-root-div .time-div[for]").remove();
+        $("#best-time-root-div .time-div[for]").remove();
+        //  $("#" + className + " .time-div").remove();
+      }
+      function oncollapseClick(type) {
+        $("." + type + "-collapsible-content").toggleClass("active");
+        $(
+          "." +
+            (type == "best-time" ? "open-on" : "best-time") +
+            "-collapsible-content"
+        ).removeClass("active");
+      }
+      function isNumber(evt) {
+        evt = evt ? evt : window.event;
+        var charCode = evt.which ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+          return false;
+        }
+        return true;
+      }
+      function bindData(placeObj) {
+        $("#place_id").val(placeObj.place_id);
+        $("#placeName").val(placeObj.full_name);
+
+        $("#description").val(placeObj.description);
+        $("#place-type").val(placeObj.placeType);
+        $("#visit-purpose").val(placeObj.visitPurpose);
+        $("#er-level").val(placeObj.erLevel);
+        $("#entryPrice").val(placeObj.entryPrice);
+        $("#optimalHours").val(placeObj.optimalTime);
+        $("#constraints").val(placeObj.constraints);
+        var bestTimeArr = placeObj.bestTime.split(' && ');
+        var opensOnTimeArr = placeObj.opensOnTime.split(' && ');
+        var bestTimes = placeObj.bestTime.split(" && ");
+        var opensOnTimes = placeObj.bestTime.split(" && ");
+        if (placeObj.bestTimeDays == "all") {
+          $(
+            ".best-time-collapsible-content .day-root-div [type=checkbox]"
+          ).prop("checked", true);
+        } else {
+          var bestTimeDaysArr = placeObj.bestTimeDays.split(",");
+          for (var i = 0; i < bestTimeDaysArr.length; i++) {
+            $(
+              ".best-time-collapsible-content .day-root-div #day" +
+              bestTimeDaysArr[i]
+            ).prop("checked", true);
+          }
+        }
+        if (placeObj.bestTimeMonths == "all") {
+          $(
+            ".best-time-collapsible-content .month-root-div [type=checkbox]"
+          ).prop("checked", true);
+        } else {
+          var bestTimeMonthsArr = placeObj.bestTimeMonths.split(",");
+          for (var i = 0; i < bestTimeMonthsArr.length; i++) {
+            $(
+              ".best-time-collapsible-content .month-root-div #month" +
+                bestTimeMonthsArr[i]
+            ).prop("checked", true);
+          }
+        }
+        if (placeObj.opensOnMonths == "all") {
+          $(
+            ".open-on-collapsible-content .month-root-div [type=checkbox]"
+          ).prop("checked", true);
+        } else {
+          var opensOnMonthsArr = placeObj.opensOnMonths.split(",");
+          for (var i = 0; i < opensOnMonthsArr.length; i++) {
+            $(
+              ".open-on-collapsible-content .month-root-div #month" +
+              opensOnMonthsArr[i]
+            ).prop("checked", true);
+          }
+        }
+        if (placeObj.opensOnDays == "all") {
+          $(".open-on-collapsible-content .day-root-div [type=checkbox]").prop(
+            "checked",
+            true
+          );
+        } else {
+          var opensOnDaysArr = placeObj.opensOnDays.split(",");
+          for (var i = 0; i < opensOnDaysArr.length; i++) {
+            $(
+              ".open-on-collapsible-content .month-root-div #month" +
+              opensOnDaysArr[i]
+            ).prop("checked", true);
+          }
+        }
+      }
+      function myFunction() {
+        //alert("Hello World");
+        if ($("#place_id").val() != "") {
+          var bestTimeMonths = [];
+          var openOnMonths = [];
+          var bestTimeDays = [];
+          var openOnDays = [];
+
+          $(".best-time-collapsible-content .month-div input:checked").each(
+            (index, item) => {
+              bestTimeMonths.push($(item).attr("value"));
+            }
+          );
+          $(".best-time-collapsible-content .day-div input:checked").each(
+            (index, item) => {
+              bestTimeDays.push($(item).attr("value"));
+            }
+          );
+          $(".open-on-collapsible-content .month-div input:checked").each(
+            (index, item) => {
+              openOnMonths.push($(item).attr("value"));
+            }
+          );
+          $(".open-on-collapsible-content .day-div input:checked").each(
+            (index, item) => {
+              openOnDays.push($(item).attr("value"));
+            }
+          );
+          var opensOnHours = [],
+            bestTimeHours = [];
+          var openHoursLength = $("#open-on-time-root-div .time-div").each(
+            (index, obj) => {
+              var elId = index == 0 ? "" : $(obj).attr("for");
+              opensOnHours.push(
+                $("#opensOnfromtime" + elId).val() +
+                  "," +
+                  $("#opensOnFromam" + elId).val() +
+                  "," +
+                  $("#opensOntotime" + elId).val() +
+                  "," +
+                  $("#opensOnToam" + elId).val()
+              );
+            }
+          );
+          var bestTimeHoursLength = $("#best-time-root-div .time-div").each(
+            (index, obj) => {
+              var elId = index == 0 ? "" : $(obj).attr("for");
+              bestTimeHours.push(
+                $("#bestTimefromtime" + elId).val() +
+                  "," +
+                  $("#bestTimeFromam" + elId).val() +
+                  "," +
+                  $("#bestTimetotime" + elId).val() +
+                  "," +
+                  $("#bestTimeToam" + elId).val()
+              );
+            }
+          );
+
+          var dataObj = {
+            place_id: $("#place_id").val(),
+            name: $("#placeName").val(),
+            fullname: $("#city2").text(),
+
+            lat: $("#cityLat").text(),
+            lng: $("#cityLng").text(),
+            description: $("#description").val(),
+            placeType: $("#place-type").val(),
+            visitPurpose: $("#visit-purpose").val(),
+            erLevel: $("#er-level").val(),
+            entryPrice: $("#entryPrice").val(),
+            optimalHours: $("#optimalHours").val(),
+            constraints: $("#constraints").val(),
+            bestTimeToVisit: {
+              months:
+                bestTimeMonths.length == 12 ? "all" : bestTimeMonths.join(","),
+              days: bestTimeDays.length == 7 ? "all" : bestTimeDays.join(","),
+              hours: bestTimeHours.join(" && "),
+            },
+            opensOn: {
+              months:
+                openOnMonths.length == 12 ? "all" : openOnMonths.join(","),
+              days: openOnDays.length == 7 ? "all" : openOnDays.join(","),
+              hours: opensOnHours.join(" && "),
+            },
+          };
+
+          //     var dataObj = {
+          //       place_id: $("#place_id").val(),
+          //       name: $("#placeName").val(),
+          //       fullname: $("#city2").text(),
+
+          //       lat: $("#cityLat").text(),
+          //       lng: $("#cityLng").text(),
+          //       description:$("#description").val(),
+          //       placeType:$('#place-type').val(),
+          //       visitPurpose:$('#visit-purpose').val()
+          //     };
+          //   //  console.log(dataObj)
+          $.ajax({
+            type: "POST",
+            url: "/",
+            data: JSON.stringify(dataObj), // or JSON.stringify (dataObj),
+            success: function (data) {
+              console.log(data);
+              if (data.success) {
+                $("#place_id").val("");
+                alert("Place saved");
+                location.reload();
+              } else {
+                alert(data.message);
+              }
+            },
+            error: function (err) {
+              debugger;
+            },
+            contentType: "application/json",
+            dataType: "json",
+          });
+        }
+      }
+    </script>
+  </body>
+</html>
